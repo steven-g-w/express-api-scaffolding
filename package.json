@@ -1,0 +1,35 @@
+{
+  "name": "azj-express-api-scaffolding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Aurizon",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-validator": "^6.2.0",
+    "inversify": "^5.0.1",
+    "inversify-binding-decorators": "^4.0.0",
+    "inversify-express-utils": "^6.3.2",
+    "moment": "^2.24.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/express-validator": "^3.0.0",
+    "@types/node": "^12.12.8",
+    "nyc": "14.1.1",
+    "supertest": "^4.0.2",
+    "ts-node": "8.3.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
+  }
+}
