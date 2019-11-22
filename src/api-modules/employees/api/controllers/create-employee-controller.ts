@@ -5,10 +5,10 @@ import { GetEmployeeController } from './get-employee-controller';
 import { CreateEmployeeDto } from '../../../../data-contract/employee/create-employee-dto';
 import { CREATE_EMPLOYEE_MAPPER, ICreateEmployeeMapper } from '../mappers/create-employee-mapper';
 import { inject } from 'inversify';
-// import { EMPLOYEE_DTO_MAPPER, EmployeeDtoMapper } from '../mappers/employee-dto-mapper';
-// import { EMPLOYEE_WRITER } from '../../resource-access/employee-writer';
-// import { IEntityWriter } from '../../../../resource-access-common/entity-writer.interfaces';
-// import { Employee } from '../../domain/entities/employee';
+import { EMPLOYEE_DTO_MAPPER, EmployeeDtoMapper } from '../mappers/employee-dto-mapper';
+import { EMPLOYEE_WRITER } from '../../resource-access/employee-writer';
+import { IEntityWriter } from '../../../../resource-access-common/entity-writer.interfaces';
+import { Employee } from '../../domain/entities/employee';
 
 const validate = (validations: ValidationChain[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -31,9 +31,9 @@ const validate = (validations: ValidationChain[]) => {
 @controller('/employees')
 export class CreateEmployeeController extends BaseHttpController {
   constructor(@inject(CREATE_EMPLOYEE_MAPPER) private inputMapper: ICreateEmployeeMapper,
-  // @inject(EMPLOYEE_WRITER) private writer: IEntityWriter<Employee>,
-    // @inject(EMPLOYEE_DTO_MAPPER) private outputMapper: EmployeeDtoMapper
-    ) {
+    @inject(EMPLOYEE_WRITER) private writer: IEntityWriter<Employee>,
+    @inject(EMPLOYEE_DTO_MAPPER) private outputMapper: EmployeeDtoMapper
+  ) {
     super();
   }
 
@@ -44,9 +44,9 @@ export class CreateEmployeeController extends BaseHttpController {
   ]))
   public async create(@requestBody() dto: CreateEmployeeDto, @request() req: Request) {
     const entity = await this.inputMapper.map(dto);
-    // const created = await this.writer.write(entity);
-    // const output = await this.outputMapper.map(created);
-    const url = GetEmployeeController.getUrl(req, entity.id);
-    return this.created(url, entity);
+    const created = await this.writer.write(entity);
+    const output = await this.outputMapper.map(created);
+    const url = GetEmployeeController.getUrl(req, output.id);
+    return this.created(url, output);
   }
 }

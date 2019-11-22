@@ -4,11 +4,13 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint-fix": "tslint -c tslint.json -p tsconfig.json --fix",
     "prestart": "npm run build",
+    "precommit": "test",
     "start": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run build && jest --forceExit --coverage --verbose && npm run lint"
   },
   "keywords": [],
   "author": "Aurizon",
@@ -25,11 +27,16 @@
   "devDependencies": {
     "@types/express": "^4.17.2",
     "@types/express-validator": "^3.0.0",
+    "@types/jest": "^24.0.23",
     "@types/node": "^12.12.8",
+    "@types/supertest": "^2.0.8",
+    "jest": "^24.9.0",
     "nyc": "14.1.1",
     "supertest": "^4.0.2",
+    "ts-jest": "^24.1.0",
     "ts-node": "8.3.0",
     "tslint": "^5.20.1",
+    "typemoq": "^2.1.0",
     "typescript": "^3.7.2"
   }
 }
