@@ -2,8 +2,9 @@ import { IModule } from '../api-common/module.interface';
 import { EmployeesModule } from '../api-modules/employees/employees-module';
 import { Container } from 'inversify';
 
-export const modules: IModule[] = [
-  new EmployeesModule()
+const modules: IModule[] = [
+  new EmployeesModule(),
+  // other modules one by one
 ];
 
 export const registerDomainServices = (container: Container) =>

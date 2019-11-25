@@ -1,5 +1,5 @@
 import { IMock, Mock, It } from 'typemoq';
-import { IEntityWriter } from '../../src/resource-access-common/entity-writer.interfaces';
+import { IEntityWriter } from '../../src/resource-access-common/entity-writer.interface';
 import { Employee } from '../../src/api-modules/employees/domain/entities/employee';
 import { EmployeeWriter } from '../../src/api-modules/employees/resource-access/employee-writer';
 
