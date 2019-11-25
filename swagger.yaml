@@ -1,0 +1,67 @@
+swagger: "2.0"
+info:
+  description: Sample Project
+  version: "1.0.0"
+  title: Node.js Express with TypeScript
+schemes:
+  - "https"
+  - "http"
+paths:
+  /employees/{employeeId}:
+    get:
+      tags:
+        - "root"
+      summary: "Get employee"
+      operationId: "GetEmployee"
+      parameters:
+        - name: employeeId
+          description: "The ID of the employee"
+          type: number
+          required: true
+          in: path
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/EmployeeDto"
+  /employees:
+    post:
+      tags:
+        - "root"
+      summary: "Create new employee"
+      operationId: "CreateEmployee"
+      parameters:
+        - name: CreateEmployeeDto
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateEmployeeDto'
+      produces:
+      - "application/json"
+      responses:
+        201:
+          description: "success"
+          schema:
+            $ref: "#/definitions/EmployeeDto"
+definitions:
+  CreateEmployeeDto:
+    required:
+      - "name"
+    properties:
+      name:
+        type: "string"
+        minLength: 4
+        maxLength: 16
+  EmployeeDto:
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+      lastModifiedAt:
+        type: "string"
+      createdAt:
+        type: "string"
+  

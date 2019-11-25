@@ -4,12 +4,14 @@ import { injectable } from 'inversify';
 
 export const EMPLOYEE_VALIDATOR = 'EmployeeValidator';
 
+/**
+ * This is an example of entity validator, has no real meaning
+ */
 @injectable()
 export class EmployeeValidator extends AbstractEntityValidator<Employee> {
   public getValidationError(input: Employee): Promise<{ [key: string]: any; }> {
     const errors: { [key: string]: any; } = {};
 
-    // this is an example of entity validator
     if (input.name === 'magic-trigger') {
       errors.name = 'cannot be magic-trigger';
     }
