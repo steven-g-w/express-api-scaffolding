@@ -1,4 +1,5 @@
 import { Container } from 'inversify';
+import { Router } from 'express';
 import { ICreateEmployeeMapper, CREATE_EMPLOYEE_MAPPER, CreateEmployeeMapper } from '../../api-modules/employees/api/mappers/create-employee-mapper';
 import { IEmployeeDtoMapper, EmployeeDtoMapper, EMPLOYEE_DTO_MAPPER } from './api/mappers/employee-dto-mapper';
 import { Employee } from './domain/entities/employee';
@@ -9,6 +10,7 @@ import { IEntityReader } from '../../resource-access-common/entity-reader.interf
 import { EmployeeReader, EMPLOYEE_READER } from './resource-access/employee-reader';
 import { IEntityValidator } from '../../api-common/validations/entity-validator.interface';
 import { EmployeeValidator, EMPLOYEE_VALIDATOR } from './domain/validators/employee-validator';
+import { CreateEmployeeController } from './api/controllers/create-employee-controller';
 
 export class EmployeesModule implements IModule {
   public registerDomainServices(container: Container) {
@@ -20,5 +22,11 @@ export class EmployeesModule implements IModule {
   public registerResourceAccessServices(container: Container) {
     container.bind<IEntityWriter<Employee>>(EMPLOYEE_WRITER).to(EmployeeWriter);
     container.bind<IEntityReader<Employee>>(EMPLOYEE_READER).to(EmployeeReader);
+  }
+
+  public getModuleRouter(container: Container): Router {
+    const router = Router();
+    router.post('/', (req, res, next) => container.resolve<CreateEmployeeController>(CreateEmployeeController).invoke(req, res, next));
+    return router;
   }
 }
