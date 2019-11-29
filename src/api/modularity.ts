@@ -16,5 +16,4 @@ export const registerResourceAccessServices = (container: Container) =>
 
 export const registerControllers = (container: Container, app: Express) => {
   app.use('/employees', new EmployeesModule().getModuleRouter(container));
-}
-
+};

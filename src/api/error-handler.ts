@@ -11,7 +11,17 @@ const handleEntityNotFoundError = (error: Error, req: Request, res: Response, ne
 
 const handleValidationError = (error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof ValidationError) {
-    return res.status(400).json({ errors: error.errors });
+    return res.status(400).json({
+      errors: error.errors,
+      message: JSON.stringify(error.errors),
+    });
+  }
+  next(error);
+};
+
+const handleSwaggerValidationError = (error: Error, req: Request, res: Response, next: NextFunction) => {
+  if ((<any>error).status === 400) {
+    return res.status(400).json({ message: (<any>error).message });
   }
   next(error);
 };
@@ -24,5 +34,6 @@ export const registerErrorHandlers = (app: Application) => {
   app
     .use(handleEntityNotFoundError)
     .use(handleValidationError)
+    .use(handleSwaggerValidationError)
     .use(handleOtherError);
 };
