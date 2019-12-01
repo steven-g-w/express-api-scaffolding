@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
 import { registerDomainServices } from '../src/api/modularity';
-import { buildServer } from '../src/app';
 import { IEntityWriter } from '../src/resource-access-common/entity-writer.interface';
 import { Employee } from '../src/api-modules/employees/domain/entities/employee';
 import { EMPLOYEE_WRITER } from '../src/api-modules/employees/resource-access/employee-writer';

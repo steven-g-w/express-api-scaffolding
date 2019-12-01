@@ -21,6 +21,7 @@ export class ApplicationFactory {
     // app.use(bodyParser.urlencoded({ extended: true }));
     // app.use(bodyParser.json());
 
+    console.log('resgistering swagger')
     await new Promise(resolve => createMiddleware('swagger.yaml', app, function (err, middleware) {
       app.use(
         middleware.metadata(),
@@ -28,9 +29,10 @@ export class ApplicationFactory {
         middleware.parseRequest(),
         middleware.validateRequest(),
       );
-
+        console.log('registered swagger')
       resolve();
     }));
+    console.log('resgistering controller')
 
     registerControllers(ctn, app);
     registerErrorHandlers(app);
