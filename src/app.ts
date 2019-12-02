@@ -3,38 +3,38 @@ import * as bodyParser from 'body-parser';
 
 
 import { Container } from 'inversify';
-import express, { Application, RequestHandler } from 'express';
-import createMiddleware from 'swagger-express-middleware';
+import express from 'express';
 
 import { registerDomainServices, registerResourceAccessServices, registerControllers } from './api/modularity';
 import { registerErrorHandlers } from './api/error-handler';
-import { ValidationError } from './api-common/errors/validation-error';
 
-export class ApplicationFactory {
-  public static async buildApplication(): Promise<Application> {
-    const ctn = new Container();
+// export const buildServer = (container: Container) => {
+//   const server = new InversifyExpressServer(container);
 
-    registerDomainServices(ctn);
-    registerResourceAccessServices(ctn);
+//   server.setConfig((app) => {
+//     app.use(bodyParser.urlencoded({ extended: true }));
+//     app.use(bodyParser.json());
+//   });
 
-    const app = express();
-    // app.use(bodyParser.urlencoded({ extended: true }));
-    // app.use(bodyParser.json());
+//   server.setErrorConfig(registerErrorHandlers);
 
-    await new Promise(resolve => createMiddleware('swagger.yaml', app, function (err, middleware) {
-      app.use(
-        middleware.metadata(),
-        middleware.CORS(),
-        middleware.parseRequest(),
-        middleware.validateRequest(),
-      );
+//   return server.build();
+// };
 
-      resolve();
-    }));
+// load everything needed to the Container
+const ctn = new Container();
 
-    registerControllers(ctn, app);
-    registerErrorHandlers(app);
+registerDomainServices(ctn);
+registerResourceAccessServices(ctn);
 
-    return app;
-  }
-}
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+registerControllers(ctn, app);
+registerErrorHandlers(app);
+
+// start the server
+// const serverInstance = buildServer(ctn);
+
+export default app;

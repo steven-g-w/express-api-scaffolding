@@ -11,10 +11,10 @@ export abstract class AbstractEntityValidator<T> implements IEntityValidator<T> 
     const errors = await this.getValidationError(input);
 
     if (errors && Object.getOwnPropertyNames(errors).length) {
-      console.log(errors)
       throw new ValidationError(errors);
     }
 
-    return;
+    return Promise.resolve();
   }
+
 }
