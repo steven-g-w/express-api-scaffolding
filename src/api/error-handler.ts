@@ -20,7 +20,7 @@ const handleValidationError = (error: Error, req: Request, res: Response, next: 
 };
 
 const handleSwaggerValidationError = (error: Error, req: Request, res: Response, next: NextFunction) => {
-  if (error && ((<any>error).status === 400)) {
+  if ((<any>error).status === 400) {
     return res.status(400).json({ message: (<any>error).message });
   }
   next(error);
